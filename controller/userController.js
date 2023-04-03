@@ -95,26 +95,25 @@ const allUser = async (req, res) => {
 };
 
 // user id 
-const singleUser = async (req, res) => {
-    try {
-        const {id} = req.params
-      let data = await userModel.findById(id);
-  
-      if (!data) {
-        res.status(400).send("User Not Found!");
-      }
-  
-      res.status(200).json({ success: true, data });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-    }
-  };
+const singleProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const single_profile = await userModel.findById(id);
 
+    if (!single_profile) {
+      res.status(400).send("User Details Not found");
+    }
+
+    sendToken(res, single_profile, 200, "Single Profile");
+  } catch (error) {
+    return res.status(400).send(error?.message);
+  }
+};
 
 module.exports = {
   register,
   login,
   logout,
   allUser,
-  singleUser
+  singleProfile
 };
